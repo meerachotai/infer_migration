@@ -1,5 +1,5 @@
 # Estimating demographic parameters in stepping stone models
 
-### Ben Stone, Meera Chotai, April Wei, Sriram Sankararaman 
+### Ben, Meera, April, Sriram
 #### UCLA B.I.G. (2021) Project
 

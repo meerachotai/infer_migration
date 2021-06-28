@@ -41,7 +41,8 @@ with open(input_vcf, 'r') as f:
                 for i in range(populations):
                     bottom = top + (sampleSize *2)  # for diploid, x2
                     alt = line[top:bottom].count("1")
-                    freq[i].append(alt)
+                    if(alt != 0): # exclude only ref
+                    	freq[i].append(alt)
                     top = bottom
                 
                   
@@ -50,12 +51,9 @@ with open(input_vcf, 'r') as f:
 fig, axs = plt.subplots(numPopEW,numPopNS, figsize=(15, 10)) #, facecolor='w', edgecolor='k')
 axs = axs.ravel()
 for i in range(populations):
-    axs[i].hist(freq[i]) #, align = "left", rwidth = 1)
+    axs[i].hist(freq[i], bins = 20) #, align = "left", rwidth = 1)
     
 fig.tight_layout()
 
 plt.savefig(new_file)
-
-# freq = pd.Series(freq)
-# freq.value_counts()
 

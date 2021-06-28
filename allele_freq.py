@@ -1,4 +1,4 @@
-# python3 allele_freq.py sub_test.vcf plot.png 5 5 10
+# python3 allele_freq.py sub_test.vcf plot.png 5 5 10 60000
 import pandas as pd
 import io
 import math
@@ -10,6 +10,7 @@ new_file = str(sys.argv[2])
 numPopEW = int(sys.argv[3]) 
 numPopNS = int(sys.argv[4]) 
 sampleSize = int(sys.argv[5])
+ylim = int(sys.argv[6])
 
 populations = numPopEW * numPopNS
 
@@ -52,8 +53,7 @@ fig, axs = plt.subplots(numPopEW,numPopNS, figsize=(15, 10)) #, facecolor='w', e
 axs = axs.ravel()
 for i in range(populations):
     axs[i].hist(freq[i], bins = 20) #, align = "left", rwidth = 1)
-    
+    axs[i].set_ylim(0,ylim) # set upper limit, for comparison
 fig.tight_layout()
 
 plt.savefig(new_file)
-

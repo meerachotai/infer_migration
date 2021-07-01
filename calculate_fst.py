@@ -142,7 +142,7 @@ write_tab = open(table, "w")
 # write_tab.write("Distance\tMean_FST\tSE_FST\n")
 
 for i in range(len(x)):
-    tb = [str(x[i]), str(y[i]), str(e[i])]
+    tb = [f'{x[i]:.20f}', f'{y[i]:.20f}', f'{e[i]:.20f}']
     write_tab.write("\t".join(tb) + "\n")
 write_tab.close()
 plt.savefig(new_file)

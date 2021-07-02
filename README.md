@@ -31,7 +31,7 @@ sampleSize=10
 samples=249 # 0-indexed, so this is actually (samples - 1)
 bash make_metadata.sh $samples $sampleSize > metadata.txt
 
-cmd="python allele_freq.py EW.${size}_NS.${size}_mig.${mig}_N.1000_n.10.vcf metadata.txt EW.${size}_NS.${size}_mig.${mig}_N.1000_n.10_PCA.png"
+cmd="python3 make_PCA.py EW.${size}_NS.${size}_mig.${mig}_N.1000_n.10.vcf metadata.txt EW.${size}_NS.${size}_mig.${mig}_N.1000_n.10_PCA.png"
 qsub -V -N job_${size}_${mig}_PCA -cwd -j y -o qsub_logs/${size}_${mig}_PCA.txt -m bae -b y -l h_rt=2:00:00,h_data=30G $cmd
 ```
 

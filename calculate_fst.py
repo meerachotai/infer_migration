@@ -1,4 +1,7 @@
-# python calculate_fst.py test.vcf fst.png table.txt 5 5 10 1000 0.005
+#!/usr/bin/env python3
+
+# Dependencies: python3 (matplotlib, numpy)
+# python3 calculate_fst.py test.vcf fst.png table.txt 5 5 10 1000 0.005
 import math
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,6 +15,7 @@ numPopNS = int(sys.argv[5])
 sampleSize = int(sys.argv[6])
 ne = int(sys.argv[7])
 mig = float(sys.argv[8])
+
 
 populations = numPopEW * numPopNS
 
@@ -106,7 +110,11 @@ seFstMatrix = np.divide(sd, sqrtSNPmatrix, out=np.zeros((populations, population
 
 #------------------------ calculate by distance ------------------------
 
-meanSEdist = {}
+ij = [] # populations
+x = [] # distance
+y = [] # mean 
+e = [] # SE
+
 for i in range(populations):
     for j in range(i+1,populations):
         x_i = math.floor(i/numPopEW) # goes row-by-row
@@ -114,21 +122,19 @@ for i in range(populations):
         x_j = math.floor(j/numPopEW)
         y_j = j % numPopEW
         distance = math.sqrt(((x_i - x_j) ** 2) + ((y_i - y_j) ** 2)) # calculate distance
-        if distance not in meanSEdist:
-            meanSEdist[distance] = [[],[]]
-        meanSEdist[distance][0].append(meanFstMatrix[i][j])
-        meanSEdist[distance][1].append(seFstMatrix[i][j])
+        ij.append((i,j))
+        x.append(distance)
+        y.append(meanFstMatrix[i][j])
+        e.append(seFstMatrix[i][j])
 
-x = [] # distance
-y = [] # mean 
-e = [] # SE
-for key in meanSEdist:
-    value = meanSEdist[key]
-    for i in range(len(value[0])):
-        x.append(key)
-        y.append(value[0][i])
-        e.append(value[1][i])
-    
+write_tab = open(table, "w")
+# write_tab.write("Distance\tMean_FST\tSE_FST\n")
+
+for i in range(len(x)):
+    tb = [str(ij[i][0]), str(ij[i][1]), f'{y[i]:.20f}', f'{e[i]:.20f}']
+    write_tab.write("\t".join(tb) + "\n")
+write_tab.close()
+
 title = "$N_e$: " + str(ne) + ", Sample size: " + str(sampleSize) + ", Homogenous Migration Rate: " + str(mig)
 
 plt.scatter(x, y)
@@ -138,11 +144,4 @@ plt.ylabel("mean $F_{ST}$")
 plt.suptitle("$F_{ST}$ vs. distance")
 plt.title(title, fontsize = 10)
 
-write_tab = open(table, "w")
-# write_tab.write("Distance\tMean_FST\tSE_FST\n")
-
-for i in range(len(x)):
-    tb = [f'{x[i]:.20f}', f'{y[i]:.20f}', f'{e[i]:.20f}']
-    write_tab.write("\t".join(tb) + "\n")
-write_tab.close()
 plt.savefig(new_file)

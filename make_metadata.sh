@@ -1,4 +1,6 @@
-# bash make_metadata.sh 249 10 > pop_meta.txt
+#!/usr/bin/env bash
+
+# make_metadata.sh 249 10 > pop_meta.txt
 samples=$1
 sampleSize=$2
 printf "index\tpopulation\n"

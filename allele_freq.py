@@ -1,4 +1,6 @@
-# python3 allele_freq.py test_20.vcf plot.png table.txt 5 5 10 180000 1000 0.005
+#!/usr/bin/env python3
+
+# python3 allele_freq.py test_20.vcf plot.png table.txt 5 5 10 1000 0.005
 import io
 import math
 import matplotlib.pyplot as plt
@@ -11,9 +13,8 @@ table = str(sys.argv[3])
 numPopEW = int(sys.argv[4]) 
 numPopNS = int(sys.argv[5]) 
 sampleSize = int(sys.argv[6])
-ylim = int(sys.argv[7])
-ne = int(sys.argv[8])
-mig = float(sys.argv[9])
+ne = int(sys.argv[7])
+mig = float(sys.argv[8])
 
 populations = numPopEW * numPopNS
 
@@ -52,6 +53,25 @@ with open(input_vcf, 'r') as f:
                   
 title = "Allele Frequency Spectrum: Stepping-Stone Matrix" + "\n$N_e$: " + str(ne) + ", Sample size: " + str(sampleSize) + ", Homogenous Migration Rate: " + str(mig)
 
+write_tab = open(table, "w")
+
+ylim = 0
+for i in range(len(freq)):
+	table = collections.Counter(freq[i])
+	for key in table:
+		if(table[key] > ylim):
+			ylim = table[key]
+	x = math.floor(i/numPopEW) # goes row-by-row
+	y = i % numPopEW
+	out = [str(x), str(y), str(i)]
+	write_tab.write("\t".join(out) + "\t")
+	out3 = []
+	for element in freq[i]:
+		out3.append(str(element))
+	write_tab.write(" ".join(out3) + "\n")
+           
+write_tab.close()
+
 fig, axs = plt.subplots(numPopEW,numPopNS, figsize=(15, 10)) #, facecolor='w', edgecolor='k')
 axs = axs.ravel()
 for i in range(populations):
@@ -60,16 +80,3 @@ for i in range(populations):
 fig.suptitle(title)
 fig.tight_layout(rect=[0, 0.03, 1, 0.95])
 plt.savefig(new_file)
-
-write_tab = open(table, "w")
-# write_tab.write("i\tj\tSNP_occurence\tFrequency\n")
-
-for i in range(len(freq)):
-    table = collections.Counter(freq[i])
-    x = math.floor(i/numPopEW) # goes row-by-row
-    y = i % numPopEW
-    for key in table:    
-        out = [str(x), str(y), str(key), str(table[key])]
-        write_tab.write("\t".join(out) + "\n")
-        
-write_tab.close()

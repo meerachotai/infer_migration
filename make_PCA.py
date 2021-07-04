@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # make_PCA.py EW.5_NS.5_mig.0.005_N.1000_n.10.vcf pop_meta.txt EW.5_NS.5_mig.0.005_N.1000_n.10_PCA.png
 import pandas as pd
 import io

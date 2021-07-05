@@ -42,7 +42,7 @@ scriptsDir=$( pwd ) # current working directory
 vcfDir=$( pwd )
 outDir=$( pwd )/output
 mig=(0.005 0.01 0.015 0.02 0.03 0.05) # define array of migration values
-cmd="make_MLinput.sh $scriptsDir $vcfDir $outDir $size $Ne $sampleSize $seed $mig"
+cmd="${scriptsDir}/make_MLinput.sh $scriptsDir $vcfDir $outDir $size $Ne $sampleSize $seed $mig"
 qsub -V -N job_ML -cwd -j y -o qsub_logs/ML.txt -m bae -b y -l h_rt=5:00:00,h_data=30G $cmd
 ```
 

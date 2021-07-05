@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# python3 allele_freq.py test_20.vcf plot.png table.txt 5 5 10 1000 0.005
+# allele_freq.py test_20.vcf plot.png table.txt 5 5 10 1000 0.005
 import io
 import math
 import matplotlib.pyplot as plt
@@ -56,19 +56,23 @@ title = "Allele Frequency Spectrum: Stepping-Stone Matrix" + "\n$N_e$: " + str(n
 write_tab = open(table, "w")
 
 ylim = 0
+
+freq_data = [[0 for _ in range(2 * sampleSize)] for _ in range(populations)] # pre-assign size of matrix
+
 for i in range(len(freq)):
-	table = collections.Counter(freq[i])
-	for key in table:
-		if(table[key] > ylim):
-			ylim = table[key]
-	x = math.floor(i/numPopEW) # goes row-by-row
-	y = i % numPopEW
-	out = [str(x), str(y), str(i)]
-	write_tab.write("\t".join(out) + "\t")
-	out3 = []
-	for element in freq[i]:
-		out3.append(str(element))
-	write_tab.write(" ".join(out3) + "\n")
+    table = collections.Counter(freq[i])
+    for key in table:
+        if(table[key] > ylim):
+            ylim = table[key]
+        freq_data[i][key-1] = table[key] # key-1 because we're ignoring 0 counts
+    x = math.floor(i/numPopEW) # goes row-by-row
+    y = i % numPopEW
+    out = [str(x), str(y), str(i)]
+    write_tab.write("\t".join(out) + "\t")
+    out3 = []
+    for element in freq_data[i]:
+        out3.append(str(element))
+    write_tab.write("\t".join(out3) + "\n")
            
 write_tab.close()
 

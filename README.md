@@ -46,7 +46,7 @@ qsub -V -N job_ML -cwd -j y -o qsub_logs/ML.txt -m bae -b y -l h_rt=5:00:00,h_da
 * A - maximum number of alternate alleles in a sampled diploid population (sampleSize * 2)
 * s - number of SNPs with subscript number of alternate allele
 
-| m | SFS<sub>1</sub>     | ... | SFS<sub>N</sub> | F<sub>ST,[0,1]</sub> | ... | F<sub>ST,[N-1,N]</sub>
+| m | SFS<sub>1</sub>     | ... | SFS<sub>N</sub> | F<sub>ST,[1,2]</sub> | ... | F<sub>ST,[N-1,N]</sub>
 |--- | -------- | ---- | ------------- |---------| -------- | -----------|
 | | s<sub>1</sub> ... s<sub>A</sub> | ... | s<sub>1</sub> ... s<sub>A</sub> | | | |
 

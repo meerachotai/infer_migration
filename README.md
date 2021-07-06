@@ -1,7 +1,7 @@
 # Estimating demographic parameters in stepping stone models
 
-### Ben, Meera, April, Sriram
-#### UCLA B.I.G. (2021) Project
+**Ben, Meera, April, Sriram**
+**UCLA B.I.G. (2021) Project**
 
 #### Run script: `steppingStoneSimulation.py`
 ```

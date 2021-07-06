@@ -6,12 +6,12 @@
 #### Run script: `steppingStoneSimulation.py`
 ```
 seed=1
-size=8
+size=5
 mig=0.005
 Ne=1000
 sampleSize=10
-cmd="python steppingStoneSimulation.py $seed EW.${size}_NS.${size}_mig.${i}_N.${Ne}_n.${sampleSize}_${seed}.vcf $size $size ${Ne} ${sampleSize} $mig $mig $mig $mig"
-qsub -V -N job_${size}_${mig} -cwd -j y -o qsub_logs/${size}_${mig}.txt -m bae -b y -l h_rt=10:00:00,h_data=30G $cmd
+cmd="python steppingStoneSimulation.py $seed EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_${seed}.vcf $size $size ${Ne} ${sampleSize} $mig $mig $mig $mig"
+qsub -V -N job_${size}_${mig} -cwd -j y -o qsub_logs/${size}_${mig}.txt -m bae -b y -l h_rt=5:00:00,h_data=30G $cmd
 ```
 #### Run script: `calculate_fst.py`
 ```

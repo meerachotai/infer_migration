@@ -25,7 +25,7 @@ cmd="./allele_freq.py EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_$
 qsub -V -N job_${size}_${mig}_freq -cwd -j y -o qsub_logs/${size}_${mig}_freq.txt -m bae -b y -l h_rt=5:00:00,h_data=20G $cmd
 ```
 
-#### Run scripts: `PCA/make_PCA.py`,`PCA/make_metadata.sh`,`makePCA_sampling.py`
+#### Run scripts: `PCA/make_PCA.py`,`PCA/make_metadata.sh` and `PCA/makePCA_sampling.py`
 ```
 # first make a population metadata file
 sampleSize=10

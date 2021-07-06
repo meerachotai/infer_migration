@@ -55,6 +55,8 @@ qsub -V -N job_ML -cwd -j y -o qsub_logs/ML.txt -m bae -b y -l h_rt=5:00:00,h_da
 * The total number of SFS columns = N * A
 * The total number of F<sub>ST</sub> columns (upper-triangular NxN matrix, without the diagonal) = N * (N - 1) / 2
 
+To merge files from different seeds: `cat file1.txt file2.txt > file3.txt`
+
 #### Run scripts: `PCA/make_PCA.py`,`PCA/make_metadata.sh` and `PCA/makePCA_sampling.py`
 ```
 # first make a population metadata file

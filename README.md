@@ -14,6 +14,18 @@ sampleSize=10
 cmd="python steppingStoneSimulation.py $seed EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_${seed}.vcf $size $size ${Ne} ${sampleSize} $mig $mig $mig $mig"
 qsub -V -N job_${size}_${mig} -cwd -j y -o qsub_logs/${size}_${mig}.txt -m bae -b y -l h_rt=5:00:00,h_data=30G $cmd
 ```
+Alternately, to run a number of migration values at once:
+```
+seed=5
+size=5
+mig=(0.0015 0.0025 0.004 0.006 0.0075 0.008 0.009)
+Ne=1000
+sampleSize=10
+for i in "${mig[@]}"; do
+cmd="python steppingStoneSimulation.py $seed EW.${size}_NS.${size}_mig.${i}_N.${Ne}_n.${sampleSize}_${seed}.vcf $size $size ${Ne} ${sampleSize} $i $i $i $i"
+qsub -V -N job_${size}_${i}_${seed} -cwd -j y -o qsub_logs/${size}_${i}_${seed}.txt -m bae -b y -l h_rt=5:00:00,h_data=30G $cmd
+done
+```
 #### Run script: `calculate_fst.py`
 ```
 cmd="./calculate_fst.py EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_${seed}.vcf EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_${seed}_fst.png EW.${size}_NS.${size}_mig.${i}_N.${Ne}_n.${sampleSize}_${seed}_fst.txt $size $size $sampleSize $Ne $mig"
@@ -33,7 +45,8 @@ vcfDir=$( pwd )
 outDir=$( pwd )/output
 mig=(0.005 0.01 0.015 0.02 0.03 0.05) # define array of migration values
 cmd="${scriptsDir}/make_MLinput.sh $scriptsDir $vcfDir $outDir $size $Ne $sampleSize $seed ${mig[@]}"
-qsub -V -N job_ML -cwd -j y -o qsub_logs/ML.txt -m bae -b y -l h_rt=5:00:00,h_data=30G $cmd
+module load python/3.6.1
+qsub -V -N job_ML_${seed} -cwd -j y -o qsub_logs/ML_${seed}.txt -m bae -b y -l h_rt=5:00:00,h_data=30G $cmd
 ```
 
 **Output:** `${outDir}/EW.${size}_NS.${size}_N.${Ne}_n.${sampleSize}_input.txt` - file with information that can be used to train and test ML algorithms.

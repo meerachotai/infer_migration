@@ -13,13 +13,13 @@ sampleSize = 10
 populations = numPopEW * numPopNS
 N = 1000
 file = "EW.5_NS.5_N.1000_n.10_low.txt"
-cv = 4
+cv = 4 # number of iterations to run
 
 data = pd.read_csv(file, sep = "\t", header = None)
 data = data.dropna(axis='columns')
 
-data= data.sample(frac=1).reset_index(drop=True)
-data = (np.log(data)).replace(-np.inf, 0) 
+data= data.sample(frac=1).reset_index(drop=True) # shuffle data
+data = (np.log(data)).replace(-np.inf, 0) # log-scaling
 
 test_size = math.floor(len(data) / cv)
 print(test_size)
@@ -69,8 +69,9 @@ for j in range(cv):
     ax.set_ylabel("error in predicted migration rates")
     ax.set_xlabel("actual migration rate (m)")
     ax.legend(bbox_to_anchor=(1, 1), loc='upper left')
+    ax.axhline(y=0, color='k', linestyle='--')
     
 fig.suptitle("m tested every iteration = " + str(test_size) + " out of " + str(len(data)) + "\ntotal iterations = " + str(cv))
 fig.tight_layout()
 
-fig.savefig("calc_lin_iter_cv" + str(cv) +"logged.png")
+fig.savefig("calc_lin_iter_cv" + str(cv) +"_logged.png")

@@ -38,7 +38,7 @@ cmd="./allele_freq.py EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_$
 qsub -V -N job_${size}_${mig}_freq -cwd -j y -o qsub_logs/${size}_${mig}_freq.txt -m bae -b y -l h_rt=5:00:00,h_data=20G $cmd
 ```
 **Alternately,**
-#### Run script: `make_MLinput.sh`
+#### Run script: `ML/make_MLinput.sh`
 ```
 scriptsDir=$( pwd ) # current working directory
 vcfDir=$( pwd )
@@ -83,5 +83,8 @@ qsub -V -N job_${size}_${mig}_PCA -cwd -j y -o qsub_logs/${size}_${mig}_PCA.txt 
 cmd="./makePCA_sampling.py EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_${seed}.vcf metadata.txt EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_${seed}_PCAsampling.png ${size} ${size} ${sampleSize} 2 ${Ne} $mig"
 qsub -V -N PCA_${size}_${mig} -cwd -j y -o qsub_logs/PCA_${size}_${mig}.txt -m bae -b y -l h_rt=5:00:00,h_data=30G $cmd
 ```
+#### Machine Learning Models to predict migration rates:
 
+* `ML/predictMig_logLR.py`: uses a linear regression model using input data: ln(Fst), ln(SFS)
+* `ML/predictMig_weightsGLM.py`: uses a generalized linear model with an underlying Poisson dist. using input: normalized SFS, Fst; includes adding sample weights for migration rates.
 

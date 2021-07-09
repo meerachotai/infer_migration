@@ -86,5 +86,5 @@ qsub -V -N PCA_${size}_${mig} -cwd -j y -o qsub_logs/PCA_${size}_${mig}.txt -m b
 #### Machine Learning Models to predict migration rates:
 
 * `ML/predictMig_logLR.py`: uses a linear regression model using input data: ln(Fst), ln(SFS)
-* `ML/predictMig_weightsGLM.py`: uses a generalized linear model with an underlying Poisson dist. using input: normalized SFS, Fst; includes adding sample weights for migration rates.
+* `ML/predictMig_weightsGLM.py`: uses a generalized linear model (GLM) with an underlying Poisson dist. using input: normalized SFS, Fst; includes adding sample weights for 3 specified ranges of migration rates.
 

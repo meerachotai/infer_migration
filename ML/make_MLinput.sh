@@ -25,7 +25,7 @@ mkdir $outdir
 
 for i in "${mig[@]}";
 do
-	echo Reading ${scripts_dir}/EW.${size}_NS.${size}_mig.${i}_N.${Ne}_n.${sampleSize}_${seed}.vcf... 	
+	echo Reading ${vcfDir}/EW.${size}_NS.${size}_mig.${i}_N.${Ne}_n.${sampleSize}_${seed}.vcf... 	
 
 	# run scripts to get output table files
 	echo Running allele_freq.py

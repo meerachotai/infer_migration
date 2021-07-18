@@ -108,7 +108,7 @@ ax2.axhline(y=0, color='k', linestyle='--')
 
 ax[2].scatter(y,L1Lin_error, facecolors='dodgerblue')
 ax[2].set_ylim([miny,maxy])
-ax[2].set_title("Log-Log Linear Regression with LassoLarsCV" + cross_val + seeder, size=15)
+ax[2].set_title("Log-Log Linear Regression with LassoLarsCV" + cross_val, size=15)
 ax[2].set_ylabel("error in predicted migration rates", fontsize=15)
 ax[2].set_xlabel("actual migration rate ln(m)",fontsize=15)
 ax[2].axhline(y=0, color='k', linestyle='--')

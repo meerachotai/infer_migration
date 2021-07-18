@@ -58,7 +58,7 @@ RFELin_error = (RFELin_y - y) / y
 # L1Lin_error = (L1Lin_y - y)/y
 
 # LassoLarsCV explores more relevant alpha values compared to LassoCV
-regL1 = LassoLarsCV(cv=k).fit(X,y) # note: does not converge for some values, not ideal
+regL1 = LassoLarsCV(cv=k).fit(X,y)
 L1Lin_y = regL1.predict(X)
 L1Lin_error = (L1Lin_y - y)/y
 

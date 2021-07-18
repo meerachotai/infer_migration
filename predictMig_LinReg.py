@@ -1,4 +1,3 @@
-from sklearn.feature_selection import RFE
 import numpy as np
 import matplotlib.pyplot as plt 
 from sklearn.linear_model import LinearRegression
@@ -8,6 +7,7 @@ import math
 from sklearn.model_selection import cross_val_predict
 from sklearn.feature_selection import RFECV
 from sklearn.linear_model import LassoCV
+from sklearn.linear_model import LassoLarsCV
 from sklearn.linear_model import RidgeCV
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
@@ -53,7 +53,12 @@ RFELin_error = (RFELin_y - y) / y
 # 3. L1/Lasso FEATURE SELECTION ---------------------------
 
 # https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LassoCV
-regL1 = LassoCV(cv=k, random_state=seed).fit(X,y) # note: does not converge for some values, not ideal
+# regL1 = LassoCV(cv=k, random_state=seed).fit(X,y) # note: does not converge for some values, not ideal
+# L1Lin_y = regL1.predict(X)
+# L1Lin_error = (L1Lin_y - y)/y
+
+# LassoLarsCV explores more relevant alpha values compared to LassoCV
+regL1 = LassoLarsCV(cv=k).fit(X,y) # note: does not converge for some values, not ideal
 L1Lin_y = regL1.predict(X)
 L1Lin_error = (L1Lin_y - y)/y
 
@@ -103,16 +108,17 @@ ax2.axhline(y=0, color='k', linestyle='--')
 
 ax[2].scatter(y,L1Lin_error, facecolors='dodgerblue')
 ax[2].set_ylim([miny,maxy])
-ax[2].set_title("Log-Log Linear Regression with LassoCV/L1+CV" + cross_val + seeder, size=15)
+ax[2].set_title("Log-Log Linear Regression with LassoLarsCV" + cross_val + seeder, size=15)
 ax[2].set_ylabel("error in predicted migration rates", fontsize=15)
 ax[2].set_xlabel("actual migration rate ln(m)",fontsize=15)
 ax[2].axhline(y=0, color='k', linestyle='--')
 
 ax[3].scatter(y,L2Lin_error, facecolors='dodgerblue')
 ax[3].set_ylim([miny,maxy])
-ax[3].set_title("Log-Log Linear Regression with RidgeCV/L2+CV" + cross_val, size=15)
+ax[3].set_title("Log-Log Linear Regression with RidgeCV" + cross_val, size=15)
 ax[3].set_ylabel("error in predicted migration rates", fontsize=15)
 ax[3].set_xlabel("actual migration rate ln(m)",fontsize=15)
 ax[3].axhline(y=0, color='k', linestyle='--')
 
+fig.set_facecolor('w')
 fig.savefig("compare_LR.png")

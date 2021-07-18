@@ -75,7 +75,7 @@ Investigates prediction error for migration rates (m) for variations of linear r
 * Simple log-log linear regression
 * Log-log linear regression with recursive feature elimination
 * Log-log linear regression with L1/Lasso feature elimination
-* Log-log linear regression with L2/Ridge feature elimination
+* Log-log linear regression with L2/Ridge
 
 Note that error is calculated as `(predicted_m - actual_m) / (actual_m)`.
 

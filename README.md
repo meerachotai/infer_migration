@@ -5,6 +5,7 @@
 **UCLA B.I.G. (2021) Project**
 
 #### Run script: `steppingStoneSimulation.py`
+Uses the python msprime library to generate a vcf file for a stepping-stone population.
 ```
 seed=1
 size=5
@@ -16,29 +17,28 @@ qsub -V -N job_${size}_${mig} -cwd -j y -o qsub_logs/${size}_${mig}.txt -m bae -
 ```
 Alternately, to run a number of migration values at once:
 ```
-seed=5
-size=5
-mig=(0.0015 0.0025 0.004 0.006 0.0075 0.008 0.009)
-Ne=1000
-sampleSize=10
 for i in "${mig[@]}"; do
 cmd="python steppingStoneSimulation.py $seed EW.${size}_NS.${size}_mig.${i}_N.${Ne}_n.${sampleSize}_${seed}.vcf $size $size ${Ne} ${sampleSize} $i $i $i $i"
 qsub -V -N job_${size}_${i}_${seed} -cwd -j y -o qsub_logs/${size}_${i}_${seed}.txt -m bae -b y -l h_rt=5:00:00,h_data=30G $cmd
 done
 ```
 #### Run script: `calculate_fst.py`
+Calculates F<sub>ST</sub> for pairs of populations given a vcf file.
 ```
 cmd="./calculate_fst.py EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_${seed}.vcf EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_${seed}_fst.png EW.${size}_NS.${size}_mig.${i}_N.${Ne}_n.${sampleSize}_${seed}_fst.txt $size $size $sampleSize $Ne $mig"
 qsub -V -N job_${size}_${mig}_fst -cwd -j y -o qsub_logs/${size}_${mig}_fst.txt -m bae -b y -l h_rt=5:00:00,h_data=30G $cmd
 ```
 
 #### Run script: `allele_freq.py`
+Calculates the allele/site frequency spectrum for each population given a vcf file.
 ```
 cmd="./allele_freq.py EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_${seed}.vcf EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_${seed}_freq.png EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_${seed}_freq.txt $size $size $sampleSize $Ne $mig"
 qsub -V -N job_${size}_${mig}_freq -cwd -j y -o qsub_logs/${size}_${mig}_freq.txt -m bae -b y -l h_rt=5:00:00,h_data=20G $cmd
 ```
-**Alternately,**
+**Alternately**
+
 #### Run script: `ML/make_MLinput.sh`
+Runs both `calculate_fst.py` and `allele_freq.py` on vcf files for a given array of migration values and generates an output file with a summary of the data generated, which can be used to train and test ML algorithms to predict migration rates.
 ```
 scriptsDir=$( pwd ) # current working directory
 vcfDir=$( pwd )
@@ -49,7 +49,7 @@ module load python/3.6.1
 qsub -V -N job_ML_${seed} -cwd -j y -o qsub_logs/ML_${seed}.txt -m bae -b y -l h_rt=5:00:00,h_data=30G $cmd
 ```
 
-**Output:** `${outDir}/EW.${size}_NS.${size}_N.${Ne}_n.${sampleSize}_input.txt` - file with information that can be used to train and test ML algorithms.
+**Output:** `${outDir}/EW.${size}_NS.${size}_N.${Ne}_n.${sampleSize}_input.txt`
 
 **Format:** each row in the file is organized in the following format:
 
@@ -59,7 +59,7 @@ qsub -V -N job_ML_${seed} -cwd -j y -o qsub_logs/ML_${seed}.txt -m bae -b y -l h
 * A - maximum number of alternate alleles in a sampled diploid population (sampleSize * 2)
 * s - number of SNPs with subscript number of alternate allele
 
-| m | SFS<sub>1</sub>     | ... | SFS<sub>N</sub> | F<sub>ST,[1,2]</sub> | ... | F<sub>ST,[N-1,N]</sub>
+| m | SFS<sub>1</sub>     | ... | SFS<sub>N</sub> | F<sub>ST[1,2]</sub> | ... | F<sub>ST[N-1,N]</sub>
 |--- | -------- | ---- | ------------- |---------| -------- | -----------|
 | | s<sub>1</sub> ... s<sub>A</sub> | ... | s<sub>1</sub> ... s<sub>A</sub> | | | |
 
@@ -68,9 +68,19 @@ qsub -V -N job_ML_${seed} -cwd -j y -o qsub_logs/ML_${seed}.txt -m bae -b y -l h
 * The total number of SFS columns = N * A
 * The total number of F<sub>ST</sub> columns (upper-triangular NxN matrix, without the diagonal) = N * (N - 1) / 2
 
-To merge files from different seeds: `cat file1.txt file2.txt > file3.txt`
+
+### Machine Learning Models to predict migration rates:
+#### Run script: `predictMig_LinReg.py`
+Investigates prediction error for migration rates (m) for variations of linear regression algorithms (along with cross-validation) on the `test_data/EW.5_NS.5_N.1000_n.10_1_lowest_input.txt` dataset:
+* Simple log-log linear regression
+* Log-log linear regression with recursive feature elimination
+* Log-log linear regression with L1/Lasso feature elimination
+* Log-log linear regression with L2/Ridge feature elimination
+
+Note that error is calculated as `(predicted_m - actual_m) / (actual_m)`.
 
 #### Run scripts: `PCA/make_PCA.py`,`PCA/make_metadata.sh` and `PCA/makePCA_sampling.py`
+Visualising the stepping-stone model using PCA. Also investigates the effect of downsampling on these PCA plots.
 ```
 # first make a population metadata file
 sampleSize=10
@@ -83,8 +93,3 @@ qsub -V -N job_${size}_${mig}_PCA -cwd -j y -o qsub_logs/${size}_${mig}_PCA.txt 
 cmd="./makePCA_sampling.py EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_${seed}.vcf metadata.txt EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_${seed}_PCAsampling.png ${size} ${size} ${sampleSize} 2 ${Ne} $mig"
 qsub -V -N PCA_${size}_${mig} -cwd -j y -o qsub_logs/PCA_${size}_${mig}.txt -m bae -b y -l h_rt=5:00:00,h_data=30G $cmd
 ```
-#### Machine Learning Models to predict migration rates:
-
-* `ML/predictMig_logLR.py`: uses a linear regression model using input data: ln(Fst), ln(SFS)
-* `ML/predictMig_weightsGLM.py`: uses a generalized linear model (GLM) with an underlying Poisson dist. using input: normalized SFS, Fst; includes adding sample weights for 3 specified ranges of migration rates.
-

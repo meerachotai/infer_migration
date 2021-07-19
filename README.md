@@ -5,7 +5,10 @@
 **UCLA B.I.G. (2021) Project**
 
 **Table of Contents**
-- [Simulating stepping-stone](#Run-script-steppingStoneSimulation.py)
+- [Simulating stepping-stone model](#Run-script-steppingStoneSimulation.py)
+- [Calculating site frequency spectrum](#Run-script-allele_freq.py)
+- [Calculating F<sub>ST</sub>](#Run-script-calculate_fst.py)
+- [Maching Learning Models](#Machine-Learning-Models)
 
 #### Run script: `steppingStoneSimulation.py`
 Uses the python msprime library to generate a vcf file for a stepping-stone population.
@@ -72,10 +75,10 @@ qsub -V -N job_ML_${seed} -cwd -j y -o qsub_logs/ML_${seed}.txt -m bae -b y -l h
 * The total number of F<sub>ST</sub> columns (upper-triangular NxN matrix, without the diagonal) = N * (N - 1) / 2
 
 
-### Machine Learning Models to predict migration rates:
+### Machine Learning Models
 #### Run script: `predictMig_LinReg.py`
 
-Investigates prediction error for migration rates (m) for variations of linear regression algorithms with cross-validation
+Prediciting migration rates using variations of linear regression models with cross-validation
 ```
 input=EW.5_NS.5_N.1000_n.10_1_lowest_input.txt
 k=4 # number of folds for cross-validation

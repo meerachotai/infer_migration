@@ -71,13 +71,28 @@ qsub -V -N job_ML_${seed} -cwd -j y -o qsub_logs/ML_${seed}.txt -m bae -b y -l h
 
 ### Machine Learning Models to predict migration rates:
 #### Run script: `predictMig_LinReg.py`
-Investigates prediction error for migration rates (m) for variations of linear regression algorithms (along with cross-validation) on the `test_data/EW.5_NS.5_N.1000_n.10_1_lowest_input.txt` dataset:
-* Simple log-log linear regression
-* Log-log linear regression with recursive feature elimination
-* Log-log linear regression with L1/Lasso feature elimination
-* Log-log linear regression with L2/Ridge
 
-Note that error is calculated as `(predicted_m - actual_m) / (actual_m)`.
+Investigates prediction error for migration rates (m) for variations of linear regression algorithms with cross-validation
+```
+input=EW.5_NS.5_N.1000_n.10_1_lowest_input.txt
+k=4 # number of folds for cross-validation
+eliminate=0.4 # % of features to eliminate per iteration for RFE
+zoom=0 # 0/1 boolean for adding zoomed-in graphs for Lasso and RFE
+out=compare_LR.png
+predictMig_LinReg.py $input $k $eliminate $zoom $out
+```
+**Cross Validation**
+
+**Log-log linear regression**
+
+**Log-log linear regression with recursive feature elimination**
+
+**Log-log linear regression with L1/Lasso feature elimination**
+
+**Log-log linear regression with L2/Ridge**
+
+Note that error in the graphs is calculated as `(predicted_m - actual_m) / (actual_m)`.
+
 
 #### Run scripts: `PCA/make_PCA.py`,`PCA/make_metadata.sh` and `PCA/makePCA_sampling.py`
 Visualising the stepping-stone model using PCA. Also investigates the effect of downsampling on these PCA plots.

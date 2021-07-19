@@ -5,7 +5,8 @@
 **UCLA B.I.G. (2021) Project**
 
 **Table of Contents**
-- [Run script] (#Run script)
+- [Run script] (#Run script:)
+- [Run script] (#Run script:)
 
 #### Run script: `steppingStoneSimulation.py`
 Uses the python msprime library to generate a vcf file for a stepping-stone population.

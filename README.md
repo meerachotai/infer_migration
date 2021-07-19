@@ -83,24 +83,15 @@ predictMig_LinReg.py $input $k $eliminate $zoom $out
 ```
 **Cross Validation**
 
-Cross validation (CV) is used to avoid overfitting of the data without reducing the number of samples that can be used for learning the model. Using CV, the training set is split into k smaller sets. For each of the k “folds”:
+**Log-log linear regression:** Uses the `cross_val_predict` method for k-fold cross-validated predicted estimates for each migration rate (for when it belonged to the testing dataset).
 
-* A model is trained using k-1 of the folds as training data
-* The resulting model is tested using the remaining part of the data
+**Log-log linear regression with recursive feature elimination:** Uses the `RFECV` method to eliminate features within k-fold cross-validation iterations, and generates predictions for migration rates at the end with the remaining selected features.
 
-cross_val_predict returns the prediction for each value when it was used as part of the test set.
+**Log-log linear regression with L1/Lasso feature elimination:** Uses the `LassoLarsCV` method to carry out regularization, setting some features' coefficients to zero, effectively selecting the features deemed most important for prediction. The k-fold cross-validation helps find an appropriate regularization alpha parameter. 
 
-
-**Log-log linear regression**
-
-**Log-log linear regression with recursive feature elimination**
-
-**Log-log linear regression with L1/Lasso feature elimination**
-
-**Log-log linear regression with L2/Ridge**
+**Log-log linear regression with L2/Ridge*:** Uses the `RidgeCV` method to carry out regularization, setting un-important features very close to 0 but not removing them altogether. In our case, SFS and F<sub>ST</sub> columns can be redundant, which would mean that Lasso may be a more appropriate regularization method.
 
 Note that error in the graphs is calculated as `(predicted_m - actual_m) / (actual_m)`.
-
 
 #### Run scripts: `PCA/make_PCA.py`,`PCA/make_metadata.sh` and `PCA/makePCA_sampling.py`
 Visualising the stepping-stone model using PCA. Also investigates the effect of downsampling on these PCA plots.

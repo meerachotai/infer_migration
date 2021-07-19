@@ -6,11 +6,12 @@
 
 **Table of Contents**
 - [Simulating stepping-stone model](#run-script-steppingstonesimulationpy)
-- [Calculating site frequency spectrum](#run-script-allele_freqpy)
 - [Calculating F<sub>ST</sub>](#run-script-calculate_fstpy)
+- [Calculating site frequency spectrum](#run-script-allele_freqpy)
 - [Maching Learning Models](#Machine-Learning-Models)
   * [Input files](#run-script-make_MLinputsh)
   * [Predicting Migration Rates](#run-script-predictMig_LinRegpy)
+- [Visualising: PCA](#run-scripts-pcamake_pcapypcamake_metadatash-and-pcamakepca_samplingpy)
 
 #### Run script: `steppingStoneSimulation.py`
 Uses the python msprime library to generate a vcf file for a stepping-stone population.

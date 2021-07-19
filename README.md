@@ -9,7 +9,7 @@
 - [Calculating site frequency spectrum](#run-script-allele_freqpy)
 - [Calculating F<sub>ST</sub>](#run-script-calculate_fstpy)
 - [Maching Learning Models](#Machine-Learning-Models)
-  * [Input files](#run-script-makeMLinputpy)
+  * [Input files](#run-script-makeMLinputsh)
   * [Predicting Migration Rates](#run-script-predictMig_LinRegpy)
 
 #### Run script: `steppingStoneSimulation.py`

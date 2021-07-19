@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+
+# predictMig_LinReg.py EW.5_NS.5_N.1000_n.10_1_lowest_input.txt 4 0.4 0 compare_LR.png
+
 import numpy as np
 import matplotlib.pyplot as plt 
 from sklearn.linear_model import LinearRegression
@@ -10,24 +14,25 @@ from sklearn.linear_model import LassoCV
 from sklearn.linear_model import LassoLarsCV
 from sklearn.linear_model import RidgeCV
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+import sys 
 
-numPopEW = 5
-numPopNS = 5
-sampleSize = 10
-populations = numPopEW * numPopNS
-N = 1000
-file = "EW.5_NS.5_N.1000_n.10_1_lowest_input.txt"
+file = str(sys.argv[1])
+
+# for every type of regression, k-fold cross-validation is used
+k = int(sys.argv[2])
 
 # recursive feature elimination (RFE) options:
 # at every iteration, _remove_ % of the features will be eliminated
-remove = 0.4
+remove = float(sys.argv[3])
 
-# for every type of regression, k-fold cross-validation is used
-k = 5
+# add small zoomed-in graphs?
+zoom = int(sys.argv[4])
+
+out_graph = str(sys.argv[5])
 
 # seed for LassoCV/RidgeCV - used as a starting point for selecting features
 # https://stackoverflow.com/questions/48909927/why-is-random-state-required-for-ridge-lasso-regression-classifiers/48910233
-seed = 5
+# seed = 5
 
 data = pd.read_csv(file, sep = "\t", header = None)
 data = data.dropna(axis='columns')
@@ -58,7 +63,7 @@ RFELin_error = (RFELin_y - y) / y
 # L1Lin_error = (L1Lin_y - y)/y
 
 # LassoLarsCV explores more relevant alpha values compared to LassoCV
-regL1 = LassoLarsCV(cv=k).fit(X,y)
+regL1 = LassoLarsCV(cv=k).fit(X,y) # note: does not converge for some values, not ideal
 L1Lin_y = regL1.predict(X)
 L1Lin_error = (L1Lin_y - y)/y
 
@@ -78,9 +83,10 @@ cross_val = "\n" + str(k) + "-fold " + "Cross-Validation (#y = " + str(len(y)) +
 features = len(X.columns)
 for i in range(k):
     features -= features * remove
-selected = features / len(X.columns) * 100
-removal = "\n" + str(selected) + " % selected, with " + str(remove * 100) + " % removed every iteration"
-seeder = "\nseed: " + str(seed)
+selected = (features / len(X.columns)) * 100
+removal_RFECV = "\n" + str(selected) + " % selected, with " + str(remove * 100) + " % removed every iteration"
+# seeder = "\nseed: " + str(seed)
+removal_L1 = "\n" + str((len(regL1.coef_.nonzero()[0]) / len(X.columns)) * 100) + " % selected"
 
 # to set axes up with same limits for all subplots
 maxy = max(max(simpleLin_error), max(RFELin_error), max(L1Lin_error), max(L2Lin_error))
@@ -97,21 +103,27 @@ ax[0].axhline(y=0, color='k', linestyle='--')
     
 ax[1].scatter(y,RFELin_error, facecolors='dodgerblue')
 ax[1].set_ylim([miny,maxy])
-ax[1].set_title("Log-Log Linear Regression with RFECV" + cross_val + removal, size=15)
+ax[1].set_title("Log-Log Linear Regression with RFECV" + cross_val + removal_RFECV, size=15)
 ax[1].set_ylabel("error in predicted migration rates", fontsize=15)
 ax[1].set_xlabel("actual migration rate ln(m)",fontsize=15)
 ax[1].axhline(y=0, color='k', linestyle='--')
 
-ax2 = inset_axes(ax[1], width="60%", height = "70%", bbox_to_anchor=(.2, .455, .75, .5), bbox_transform=ax[1].transAxes, loc=1)
-ax2.scatter(y,RFELin_error, facecolors='dodgerblue')
-ax2.axhline(y=0, color='k', linestyle='--')
+if(zoom != 0):
+	ax2 = inset_axes(ax[1], width="60%", height = "70%", bbox_to_anchor=(.2, .455, .75, .5), bbox_transform=ax[1].transAxes, loc=1)
+	ax2.scatter(y,RFELin_error, facecolors='dodgerblue')
+	ax2.axhline(y=0, color='k', linestyle='--')
 
 ax[2].scatter(y,L1Lin_error, facecolors='dodgerblue')
 ax[2].set_ylim([miny,maxy])
-ax[2].set_title("Log-Log Linear Regression with LassoLarsCV" + cross_val, size=15)
+ax[2].set_title("Log-Log Linear Regression with LassoLarsCV" + cross_val + removal_L1, size=15)
 ax[2].set_ylabel("error in predicted migration rates", fontsize=15)
 ax[2].set_xlabel("actual migration rate ln(m)",fontsize=15)
 ax[2].axhline(y=0, color='k', linestyle='--')
+
+if(zoom != 0):
+	ax3 = inset_axes(ax[2], width="60%", height = "70%", bbox_to_anchor=(.2, .455, .75, .5), bbox_transform=ax[2].transAxes, loc=1)
+	ax3.scatter(y,L1Lin_error, facecolors='dodgerblue')
+	ax3.axhline(y=0, color='k', linestyle='--')
 
 ax[3].scatter(y,L2Lin_error, facecolors='dodgerblue')
 ax[3].set_ylim([miny,maxy])
@@ -121,4 +133,4 @@ ax[3].set_xlabel("actual migration rate ln(m)",fontsize=15)
 ax[3].axhline(y=0, color='k', linestyle='--')
 
 fig.set_facecolor('w')
-fig.savefig("compare_LR.png")
+fig.savefig(out_graph)

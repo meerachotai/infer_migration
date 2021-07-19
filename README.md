@@ -82,6 +82,13 @@ out=compare_LR.png
 predictMig_LinReg.py $input $k $eliminate $zoom $out
 ```
 **Cross Validation**
+Cross validation (CV) is used to avoid overfitting of the data without reducing the number of samples that can be used for learning the model. Using CV, the training set is split into k smaller sets. For each of the k “folds”:
+
+* A model is trained using k-1 of the folds as training data
+* The resulting model is tested using the remaining part of the data
+
+cross_val_predict returns the prediction for each value when it was used as part of the test set.
+
 
 **Log-log linear regression**
 

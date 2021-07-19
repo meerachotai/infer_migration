@@ -92,7 +92,7 @@ predictMig_LinReg.py $input $k $eliminate $zoom $out
 
 **Log-log linear regression with L1/Lasso feature elimination:** Uses the `LassoLarsCV` method to carry out regularization, setting some features' coefficients to zero, effectively selecting the features deemed most important for prediction. The k-fold cross-validation helps find an appropriate regularization alpha parameter. 
 
-**Log-log linear regression with L2/Ridge*:** Uses the `RidgeCV` method to carry out regularization, setting un-important features very close to 0 but not removing them altogether. In our case, SFS and F<sub>ST</sub> columns can be redundant, which would mean that Lasso may be a more appropriate regularization method.
+**Log-log linear regression with L2/Ridge:** Uses the `RidgeCV` method to carry out regularization, setting un-important features very close to 0 but not removing them altogether. In our case, SFS and F<sub>ST</sub> columns can be redundant, which would mean that Lasso may be a more appropriate regularization method.
 
 Note that error in the graphs is calculated as `(predicted_m - actual_m) / (actual_m)`.
 

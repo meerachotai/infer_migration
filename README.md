@@ -5,11 +5,11 @@
 **UCLA B.I.G. (2021) Project**
 
 **Table of Contents**
-- [Simulating stepping-stone model](#Run-script-steppingStoneSimulation.py)
-- [Calculating site frequency spectrum](#Run-script-allele_freq.py)
-- [Calculating F<sub>ST</sub>](#Run-script-calculate_fst.py)
+- [Simulating stepping-stone model](#run-script-steppingstonesimulationpy)
+- [Calculating site frequency spectrum](#run-script-allele_freqpy)
+- [Calculating F<sub>ST</sub>](#run-script-calculate_fstpy)
 - [Maching Learning Models](#Machine-Learning-Models)
-  * [Predicting Migration Rates](#Run-script-predictMig_LinReg.py)
+  * [Predicting Migration Rates](#run-script-predictMig_LinRegpy)
 
 #### Run script: `steppingStoneSimulation.py`
 Uses the python msprime library to generate a vcf file for a stepping-stone population.

@@ -46,7 +46,7 @@ qsub -V -N job_${size}_${mig}_freq -cwd -j y -o qsub_logs/${size}_${mig}_freq.tx
 
 ### Machine Learning Models
 
-#### Run script: `ML/make_MLinput.sh`
+#### Run script: `make_MLinput.sh`
 Runs both `calculate_fst.py` and `allele_freq.py` on vcf files for a given array of migration values and generates an output file with a summary of the data generated, which can be used to train and test ML algorithms to predict migration rates.
 ```
 scriptsDir=$( pwd ) # current working directory

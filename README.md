@@ -81,7 +81,10 @@ zoom=0 # 0/1 boolean for adding zoomed-in graphs for Lasso and RFE
 out=compare_LR.png
 predictMig_LinReg.py $input $k $eliminate $zoom $out
 ```
-**Cross Validation**
+**Cross Validation:** Avoids overfitting of the data without reducing the number of samples that can be used for learning the model. Using CV, the training set is split into k smaller sets. For each of the k “folds”:
+
+* A model is trained using k-1 of the folds as training data
+* The resulting model is tested using the remaining part of the data
 
 **Log-log linear regression:** Uses the `cross_val_predict` method for k-fold cross-validated predicted estimates for each migration rate (for when it belonged to the testing dataset).
 

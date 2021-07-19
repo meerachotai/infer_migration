@@ -9,6 +9,7 @@
 - [Calculating site frequency spectrum](#run-script-allele_freqpy)
 - [Calculating F<sub>ST</sub>](#run-script-calculate_fstpy)
 - [Maching Learning Models](#Machine-Learning-Models)
+  * [Input files](#run-script-makeMLinputpy)
   * [Predicting Migration Rates](#run-script-predictMig_LinRegpy)
 
 #### Run script: `steppingStoneSimulation.py`
@@ -42,7 +43,8 @@ Calculates the allele/site frequency spectrum for each population given a vcf fi
 cmd="./allele_freq.py EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_${seed}.vcf EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_${seed}_freq.png EW.${size}_NS.${size}_mig.${mig}_N.${Ne}_n.${sampleSize}_${seed}_freq.txt $size $size $sampleSize $Ne $mig"
 qsub -V -N job_${size}_${mig}_freq -cwd -j y -o qsub_logs/${size}_${mig}_freq.txt -m bae -b y -l h_rt=5:00:00,h_data=20G $cmd
 ```
-**Alternately**
+
+### Machine Learning Models
 
 #### Run script: `ML/make_MLinput.sh`
 Runs both `calculate_fst.py` and `allele_freq.py` on vcf files for a given array of migration values and generates an output file with a summary of the data generated, which can be used to train and test ML algorithms to predict migration rates.
@@ -75,8 +77,6 @@ qsub -V -N job_ML_${seed} -cwd -j y -o qsub_logs/ML_${seed}.txt -m bae -b y -l h
 * The total number of SFS columns = N * A
 * The total number of F<sub>ST</sub> columns (upper-triangular NxN matrix, without the diagonal) = N * (N - 1) / 2
 
-
-### Machine Learning Models
 #### Run script: `predictMig_LinReg.py`
 
 Prediciting migration rates using variations of linear regression models with cross-validation

@@ -51,7 +51,7 @@ with open(input_vcf, 'r') as f:
                     top = bottom
                 
                   
-title = "Allele Frequency Spectrum: Stepping-Stone Matrix" + "\n$N_e$: " + str(ne) + ", Sample size: " + str(sampleSize) + ", Homogenous Migration Rate: " + str(mig)
+title = "Allele Frequency Spectrum: Stepping-Stone Matrix" + "\n$N_e$: " + str(ne) + ", Sample size: " + str(sampleSize) + ", Migration Rate: " + str(mig)
 
 write_tab = open(table, "w")
 

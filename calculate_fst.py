@@ -14,7 +14,7 @@ numPopEW = int(sys.argv[4])
 numPopNS = int(sys.argv[5]) 
 sampleSize = int(sys.argv[6])
 ne = int(sys.argv[7])
-mig = float(sys.argv[8])
+mig = str(sys.argv[8])
 
 
 populations = numPopEW * numPopNS

@@ -58,6 +58,22 @@ cmd="${scriptsDir}/make_MLinput.sh $scriptsDir $vcfDir $outDir $size $Ne $sample
 module load python/3.6.1
 qsub -V -N job_ML_${seed} -cwd -j y -o qsub_logs/ML_${seed}.txt -m bae -b y -l h_rt=5:00:00,h_data=30G $cmd
 ```
+Alternately, run `ML/jobArray/generateMig.py` and `ML/jobArray/migJobArray.sh` to run a job array/ batch job of n uniformly-distributed values between given boundaries.
+```
+seed=1
+size=5
+Ne=1000
+sampleSize=10
+n=50 # number of rounds
+lower=0.0001
+upper=0.01
+scripts_dir=$( pwd ) # current working directory
+vcfDir=$( pwd )
+outdir=$( pwd )/output_jobarray
+
+generateMig.py $lower $upper 1 $seed $n
+qsub -t 1:$n migJobArray.sh $scripts_dir $vcfDir $outdir $size $Ne $sampleSize $seed
+```
 
 **Output:** `${outDir}/EW.${size}_NS.${size}_N.${Ne}_n.${sampleSize}_input.txt`
 

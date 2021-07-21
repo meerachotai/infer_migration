@@ -135,7 +135,7 @@ for i in range(len(x)):
     write_tab.write("\t".join(tb) + "\n")
 write_tab.close()
 
-title = "$N_e$: " + str(ne) + ", Sample size: " + str(sampleSize) + ", Homogenous Migration Rate: " + str(mig)
+title = "$N_e$: " + str(ne) + ", Sample size: " + str(sampleSize) + ", Migration Rates: " + mig
 
 plt.scatter(x, y)
 plt.errorbar(x, y, yerr = e, fmt="o")

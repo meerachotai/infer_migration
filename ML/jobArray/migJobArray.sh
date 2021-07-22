@@ -3,7 +3,7 @@
 #$ -cwd
 #$ -o qsub_logs/MLjobarray.txt
 #$ -j y
-#$ -l h_rt=5:00:00,h_data=30G
+#$ -l h_rt=5:00:00,h_data=30G,highp
 #$ -m a
 #$ -V
 

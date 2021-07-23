@@ -31,8 +31,12 @@ mkdir $outdir
 echo Reading ${vcfDir}/EW.${size}_NS.${size}_migEW.${migEW}_migWE.${migWE}_migNS.${migNS}_migSN.${migSN}_N.${Ne}_n.${sampleSize}_${seed}.vcf... 	
 
 # run scripts to get output table files
-echo Running allele_freq.py
-${scripts_dir}/allele_freq.py ${vcfDir}/EW.${size}_NS.${size}_migEW.${migEW}_migWE.${migWE}_migNS.${migNS}_migSN.${migSN}_N.${Ne}_n.${sampleSize}_${seed}.vcf ${outdir}/EW.${size}_NS.${size}_migEW.${migEW}_migWE.${migWE}_migNS.${migNS}_migSN.${migSN}_N.${Ne}_n.${sampleSize}_${seed}_freq.png ${outdir}/EW.${size}_NS.${size}_migEW.${migEW}_migWE.${migWE}_migNS.${migNS}_migSN.${migSN}_N.${Ne}_n.${sampleSize}_${seed}_freq.txt $size $size $sampleSize $Ne "${migEW},${migWE},${migNS},${migSN}"
+# echo Running allele_freq.py
+# ${scripts_dir}/allele_freq.py ${vcfDir}/EW.${size}_NS.${size}_migEW.${migEW}_migWE.${migWE}_migNS.${migNS}_migSN.${migSN}_N.${Ne}_n.${sampleSize}_${seed}.vcf ${outdir}/EW.${size}_NS.${size}_migEW.${migEW}_migWE.${migWE}_migNS.${migNS}_migSN.${migSN}_N.${Ne}_n.${sampleSize}_${seed}_freq.png ${outdir}/EW.${size}_NS.${size}_migEW.${migEW}_migWE.${migWE}_migNS.${migNS}_migSN.${migSN}_N.${Ne}_n.${sampleSize}_${seed}_freq.txt $size $size $sampleSize $Ne "${migEW},${migWE},${migNS},${migSN}"
+
+echo Running allele_freq_norm.py
+${scripts_dir}/allele_freq_norm.py ${vcfDir}/EW.${size}_NS.${size}_migEW.${migEW}_migWE.${migWE}_migNS.${migNS}_migSN.${migSN}_N.${Ne}_n.${sampleSize}_${seed}.vcf ${outdir}/EW.${size}_NS.${size}_migEW.${migEW}_migWE.${migWE}_migNS.${migNS}_migSN.${migSN}_N.${Ne}_n.${sampleSize}_${seed}_freq.png ${outdir}/EW.${size}_NS.${size}_migEW.${migEW}_migWE.${migWE}_migNS.${migNS}_migSN.${migSN}_N.${Ne}_n.${sampleSize}_${seed}_freq.txt $size $size $sampleSize $Ne "${migEW},${migWE},${migNS},${migSN}"
+
 
 # echo Running calculate_fst.py
 ${scripts_dir}/calculate_fst.py ${vcfDir}/EW.${size}_NS.${size}_migEW.${migEW}_migWE.${migWE}_migNS.${migNS}_migSN.${migSN}_N.${Ne}_n.${sampleSize}_${seed}.vcf ${outdir}/EW.${size}_NS.${size}_migEW.${migEW}_migWE.${migWE}_migNS.${migNS}_migSN.${migSN}_N.${Ne}_n.${sampleSize}_${seed}_fst.png ${outdir}/EW.${size}_NS.${size}_migEW.${migEW}_migWE.${migWE}_migNS.${migNS}_migSN.${migSN}_N.${Ne}_n.${sampleSize}_${seed}_fst.txt $size $size $sampleSize $Ne "${migEW},${migWE},${migNS},${migSN}"

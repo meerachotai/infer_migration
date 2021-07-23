@@ -29,6 +29,8 @@ test = 1/(k+1)
 # seed for train-test splitting
 seed = 5
 
+file = "output_jobarray/EW.5_NS.5_N.1000_n.10_logAsym_input.txt"
+
 
 # FUNCTION: returns new order given the transform ('rotate'/'mirror'), default: rotate. 
 # also give dimensions of model EWxNS
@@ -196,7 +198,8 @@ def RunLinearRegression(trainX, trainy, testX, testy):
     return simpleLin_error_train, simpleLin_error_test, RFELin_error_train, RFELin_error_test, L1Lin_error_train, \
         L1Lin_error_test, L2Lin_error_train, L2Lin_error_test
 
-file = "output_jobarray/EW.5_NS.5_N.1000_n.10_asym_input.txt"
+# main pipeline ----------------------------
+
 data = pd.read_csv(file, sep = "\t", header = None)
 data = data.dropna(axis='columns')
 

@@ -14,7 +14,7 @@ numPopEW = int(sys.argv[4])
 numPopNS = int(sys.argv[5]) 
 sampleSize = int(sys.argv[6])
 ne = int(sys.argv[7])
-mig = float(sys.argv[8])
+mig = str(sys.argv[8])
 
 populations = numPopEW * numPopNS
 
@@ -54,8 +54,7 @@ with open(input_vcf, 'r') as f:
                     top = bottom
 
                   
-title = "Allele Frequency Spectrum: Stepping-Stone Matrix" + "\n$N_e$: " + str(ne) + ", Sample size: " + str(sampleSize) + ", Homogenous Migration Rate: " + str(mig)
-
+title = "Allele Frequency Spectrum: Stepping-Stone Matrix" + "\n$N_e$: " + str(ne) + ", Sample size: " + str(sampleSize) + ", Migration Rates: " + mig
 write_tabn = open(table, "w")
 ylim = 0
 

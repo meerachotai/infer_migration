@@ -202,6 +202,8 @@ data = data.dropna(axis='columns')
 
 data = (np.log(data)).replace(-np.inf, 0) # FOR LOG-LOG LINEAR REGRESSION
 
+populations = numPopEW * numPopNS
+
 ewX = data.iloc[:,4:]
 ewX.columns = getOrigLabels(populations, sampleSize, 'all')
 ewy = data.iloc[:,0]

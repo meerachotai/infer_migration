@@ -98,8 +98,10 @@ qsub -t 1:$n migJobArray.sh $scripts_dir $vcfDir $outdir $size $Ne $sampleSize $
 #### Test Data
 * EW.5_NS.5_N.1000_n.10_asym1_input.txt - asymmetric migration rates with **one** different migration rate (can be either EW, WE, NS or SN direction), not-normalized SFS columns
 * EW.5_NS.5_N.1000_n.10_asym1_SN_input.txt - asymmetric migration rates with a different **SN** direction migration rate, normalized SFS columns
-* EW.5_NS.5_N.1000_n.10_asym4_input.txt - asymmetric migration rates with different migration rates for all **four** directions
-* 
+* EW.5_NS.5_N.1000_n.10_asym4_input.txt - asymmetric migration rates with different migration rates for all **four** directions, normalized SFS columns
+* EW.5_NS.5_N.1000_n.10_sym_input.txt - symmetric migration rates, normalized SFS columns
+
+
 #### Run script: `predictMig_LinReg.py`
 
 Prediciting migration rates using variations of linear regression models with cross-validation

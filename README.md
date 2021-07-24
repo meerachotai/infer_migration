@@ -10,6 +10,7 @@
 - [Calculating site frequency spectrum](#run-script-allele_freqpy)
 - [Maching Learning Models](#Machine-Learning-Models)
   * [Input files](#run-script-make_MLinputsh)
+  * [Available test data] (#test-data)
   * [Predicting Migration Rates](#run-script-predictMig_LinRegpy)
 - [Visualising: PCA](#run-scripts-pcamake_pcapypcamake_metadatash-and-pcamakepca_samplingpy)
 
@@ -94,6 +95,11 @@ qsub -t 1:$n migJobArray.sh $scripts_dir $vcfDir $outdir $size $Ne $sampleSize $
 * The total number of SFS columns = N * A
 * The total number of F<sub>ST</sub> columns (upper-triangular NxN matrix, without the diagonal) = N * (N - 1) / 2
 
+#### Test Data
+* EW.5_NS.5_N.1000_n.10_asym1_input.txt - asymmetric migration rates with **one** different migration rate (can be either EW, WE, NS or SN direction), not-normalized SFS columns
+* EW.5_NS.5_N.1000_n.10_asym1_SN_input.txt - asymmetric migration rates with a different **SN** direction migration rate, normalized SFS columns
+* EW.5_NS.5_N.1000_n.10_asym4_input.txt - asymmetric migration rates with different migration rates for all **four** directions
+* 
 #### Run script: `predictMig_LinReg.py`
 
 Prediciting migration rates using variations of linear regression models with cross-validation

@@ -10,7 +10,7 @@
 - [Calculating site frequency spectrum](#run-script-allele_freqpy)
 - [Maching Learning Models](#Machine-Learning-Models)
   * [Input files](#run-script-make_MLinputsh)
-  * [Available test data] (#test-data)
+  * [Available test data](#test-data)
   * [Predicting Migration Rates](#run-script-predictMig_LinRegpy)
 - [Visualising: PCA](#run-scripts-pcamake_pcapypcamake_metadatash-and-pcamakepca_samplingpy)
 

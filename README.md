@@ -71,9 +71,9 @@ upper=0.01
 scripts_dir=$( pwd ) # current working directory
 vcfDir=$( pwd )
 outdir=$( pwd )/output_jobarray
-
-generateMig.py $lower $upper 1 $seed $n
-qsub -t 1:$n migJobArray.sh $scripts_dir $vcfDir $outdir $size $Ne $sampleSize $seed
+migfile=mig_val.txt
+generateMig.py $lower $upper 1 $seed $n $migfile
+qsub -t 1:$n migJobArray.sh $scripts_dir $vcfDir $outdir $size $Ne $sampleSize $seed $migfile
 ```
 
 **Output:** `${outDir}/EW.${size}_NS.${size}_N.${Ne}_n.${sampleSize}_input.txt`
@@ -104,7 +104,7 @@ qsub -t 1:$n migJobArray.sh $scripts_dir $vcfDir $outdir $size $Ne $sampleSize $
 
 #### Run script: `predictMig_LinReg.py`
 
-Prediciting migration rates using variations of linear regression models with cross-validation
+Predicting migration rates using variations of linear regression models with cross-validation
 ```
 input=EW.5_NS.5_N.1000_n.10_1_lowest_input.txt
 k=4 # number of folds for cross-validation

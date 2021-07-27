@@ -14,7 +14,7 @@
 # for asymmetric values: generateMig.py 0.0001 0.01 1 $seed $n
 
 # THEN run this file:
-# qsub -t 1-$n migJobArray.sh $( pwd ) $( pwd ) $( pwd )/output_jobarray 5 1000 10 5 mig_val.txt
+# qsub -t 1-$n migJobArray.sh $( pwd ) $( pwd ) $( pwd )/output_jobarray 5 1000 10 5
 
 scripts_dir=$1
 vcfDir=$2
@@ -25,7 +25,7 @@ sampleSize=$6
 seed=$7
 infile=$8
 
-if [ -f "mig_val.txt" ]; then
+if [ -f $infile ]; then
     line=`sed -n ${SGE_TASK_ID}p ${infile}`
 else
 	exit 1

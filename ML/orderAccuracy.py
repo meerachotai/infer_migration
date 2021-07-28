@@ -190,7 +190,7 @@ y = pd.concat([ewy,wey,nsy,sny], axis = 0) # concat by row
 
 data_len = len(ewy)
 
-samples = np.tile(list(range(0,100)), 4)
+samples = np.tile(list(range(0,data_len)), 4)
 direc = np.repeat(np.array(["EW","WE","NS","SN"]),[len(ewy), len(wey),len(nsy), len(sny)])
 
 trainX, testX, trainy, testy, trainS, testS, trainD, testD = train_test_split(X, y, samples, direc, test_size=test, random_state=seed)

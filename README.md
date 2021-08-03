@@ -114,7 +114,7 @@ Predicting migration rates using variations of log-log regression models (with t
 ```
 compare_reg.py EW.5_NS.5_N.1000_n.10_asym4_1GB_input.txt reg_asym_1GB.png reg_r2_asym_1GB.png 5 5 10 1000 5 'Asymmetric 1GB - Log-Log Regression Models' 'Asymmetric 1GB - Simulated vs. Predicted \$R^{2}\$'"
 ```
-**Output:** Predicted vs. Simulated scatterplot, R<sup>2</sup> heatmap
+**Output:** Predicted vs. Simulated log10(m) scatterplot, R<sup>2</sup> heatmap
 
 #### Run scripts: `PCA/make_PCA.py`,`PCA/make_metadata.sh` and `PCA/makePCA_sampling.py`
 Visualising the stepping-stone model using PCA. Also investigates the effect of downsampling on these PCA plots.

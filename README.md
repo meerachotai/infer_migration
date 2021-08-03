@@ -11,7 +11,7 @@
 - [Maching Learning Models](#Machine-Learning-Models)
   * [Input files](#run-script-make_MLinputsh)
   * [Available test data](#test-data)
-  * [Predicting Migration Rates](#run-script-predictMig_LinRegpy)
+  * [Predicting Migration Rates](#run-script-compare_regpy)
 - [Visualising: PCA](#run-scripts-pcamake_pcapypcamake_metadatash-and-pcamakepca_samplingpy)
 
 #### Run script: `steppingStoneSimulation.py`
@@ -102,31 +102,19 @@ qsub -t 1:$n migJobArray.sh $scripts_dir $vcfDir $outdir $size $Ne $sampleSize $
 * EW.5_NS.5_N.1000_n.10_sym_input.txt - symmetric migration rates, normalized SFS columns
 
 
-#### Run script: `predictMig_LinReg.py`
+#### Run script: `compare_reg.py`
 
-Predicting migration rates using variations of linear regression models with cross-validation
+Predicting migration rates using variations of log-log regression models (with tuned hyperparameters), including:
+* Simple Linear Regression (with cross-validation)
+* Linear Regression with Recursive Feature Elimination (RFE) (with cross-validation)
+* Linear Regression with L1/Lasso Penalty (with cross-validation)
+* Linear Regression with L2/Ridge Penalty (with cross-validation)
+* KernelRidge Regression
+* RandomForest Regression (with out-of-bag error)
 ```
-input=EW.5_NS.5_N.1000_n.10_1_lowest_input.txt
-k=4 # number of folds for cross-validation
-eliminate=0.4 # % of features to eliminate per iteration for RFE
-zoom=0 # 0/1 boolean for adding zoomed-in graphs for Lasso and RFE
-out=compare_LR.png
-predictMig_LinReg.py $input $k $eliminate $zoom $out
+compare_reg.py EW.5_NS.5_N.1000_n.10_asym4_1GB_input.txt reg_asym_1GB.png reg_r2_asym_1GB.png 5 5 10 1000 5 'Asymmetric 1GB - Log-Log Regression Models' 'Asymmetric 1GB - Simulated vs. Predicted \$R^{2}\$'"
 ```
-**Cross Validation:** Avoids overfitting of the data without reducing the number of samples that can be used for learning the model. Using CV, the training set is split into k smaller sets. For each of the k “folds”:
-
-* A model is trained using k-1 of the folds as training data
-* The resulting model is tested using the remaining part of the data
-
-**Log-log linear regression:** Uses the `cross_val_predict` method for k-fold cross-validated predicted estimates for each migration rate (for when it belonged to the testing dataset).
-
-**Log-log linear regression with recursive feature elimination:** Uses the `RFECV` method to eliminate features within k-fold cross-validation iterations, and generates predictions for migration rates at the end with the remaining selected features.
-
-**Log-log linear regression with L1/Lasso feature elimination:** Uses the `LassoLarsCV` method to carry out regularization, setting some features' coefficients to zero, effectively selecting the features deemed most important for prediction. The k-fold cross-validation helps find an appropriate regularization alpha parameter. 
-
-**Log-log linear regression with L2/Ridge:** Uses the `RidgeCV` method to carry out regularization, setting un-important features very close to 0 but not removing them altogether. In our case, SFS and F<sub>ST</sub> columns can be redundant, which would mean that Lasso may be a more appropriate regularization method.
-
-Note that error in the graphs is calculated as `(predicted_m - actual_m) / (actual_m)`.
+**Output:** Predicted vs. Simulated scatterplot, R<sup>2</sup> heatmap
 
 #### Run scripts: `PCA/make_PCA.py`,`PCA/make_metadata.sh` and `PCA/makePCA_sampling.py`
 Visualising the stepping-stone model using PCA. Also investigates the effect of downsampling on these PCA plots.

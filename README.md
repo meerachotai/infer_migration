@@ -11,7 +11,7 @@
 - [Maching Learning Models](#Machine-Learning-Models)
   * [Input files](#run-script-make_MLinputsh)
   * [Available test data](#test-data)
-  * [Predicting Migration Rates](#run-script-compare_regpy)
+  * [Predicting Migration Rates](#run-script-compare_regpy-or-comparereg_asymcombospy)
 - [Visualising: PCA](#run-scripts-pcamake_pcapypcamake_metadatash-and-pcamakepca_samplingpy)
 
 #### Run script: `steppingStoneSimulation.py`
@@ -102,7 +102,7 @@ qsub -t 1:$n migJobArray.sh $scripts_dir $vcfDir $outdir $size $Ne $sampleSize $
 * EW.5_NS.5_N.1000_n.10_sym693_input.txt - symmetric migration rates, normalized SFS columns
 * EW.5_NS.5_N.1000_n.10_asym4_1GB_input.txt - asymmetric migration rates with different migration rates for all **four** directions, normalized SFS columns, genome size 1GB
 
-#### Run script: `compare_reg.py`
+#### Run script: `compare_reg.py` or `compareReg_asymCombos.py`
 
 Predicting migration rates using variations of log-log regression models (with tuned hyperparameters), including:
 * Simple Linear Regression (with cross-validation)
@@ -112,7 +112,9 @@ Predicting migration rates using variations of log-log regression models (with t
 * KernelRidge Regression
 * RandomForest Regression (with out-of-bag error)
 ```
-compare_reg.py EW.5_NS.5_N.1000_n.10_asym4_1GB_input.txt reg_asym_1GB.png reg_r2_asym_1GB.png 5 5 10 1000 5 'Asymmetric 1GB - Log-Log Regression Models' 'Asymmetric 1GB - Simulated vs. Predicted \$R^{2}\$'"
+compare_reg.py EW.5_NS.5_N.1000_n.10_asym4_1GB_input.txt reg_asym_1GB.png reg_r2_asym_1GB.png 5 5 10 1000 5 'Symmetric 1GB - Log-Log Regression Models' 'Asymmetric 1GB - Simulated vs. Predicted \$R^{2}\$'"
+
+compareReg_asymCombos.py EW.5_NS.5_N.1000_n.10_asym4_1GB_input.txt reg_asym_1GB.png reg_r2_asym_1GB.png 5 5 10 1000 5 NS-SN 'Asymmetric 1GB'"
 ```
 **Output:** Predicted vs. Simulated log10(m) scatterplot, R<sup>2</sup> heatmap
 

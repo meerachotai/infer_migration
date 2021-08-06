@@ -275,8 +275,10 @@ if(combo == 'EW-WE'):
 	ewX.columns = getOrigLabels(populations, sampleSize, 'all')
 	ewy = data.iloc[:,0]
 
-	weX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, ewX, transform='mirror')
-	wey = data.iloc[:,1]	
+	nsX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, ewX, transform='rotate')
+
+	weX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, nsX, transform='rotate')
+	wey = data.iloc[:,1]
 
 	X = pd.concat([ewX, weX], axis = 0)
 	y = pd.concat([ewy,wey], axis = 0) # concat by row
@@ -284,11 +286,13 @@ elif(combo == 'EW-NS-SN'):
 	print("chose EW-NS-SN")
 	ewX = data.iloc[:,4:]
 	ewX.columns = getOrigLabels(populations, sampleSize, 'all')
-
+	
 	nsX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, ewX, transform='rotate')
 	nsy = data.iloc[:,2]
 
-	snX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, nsX, transform='mirror')
+	weX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, nsX, transform='rotate')
+
+	snX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, weX, transform = 'rotate')
 	sny = data.iloc[:,3]
 
 	X = pd.concat([nsX, snX], axis = 0)
@@ -299,7 +303,9 @@ elif(combo == 'NS-SN'):
 	nsX.columns = getOrigLabels(populations, sampleSize, 'all')
 	nsy = data.iloc[:,2]
 
-	snX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, nsX, transform='mirror')
+	weX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, nsX, transform='rotate')
+
+	snX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, weX, transform = 'rotate')
 	sny = data.iloc[:,3]
 
 	X = pd.concat([nsX, snX], axis = 0)
@@ -322,7 +328,10 @@ elif(combo == 'EW-SN'):
 	ewy = data.iloc[:,0]
 
 	nsX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, ewX, transform='rotate')
-	nsy = data.iloc[:,2]
+	weX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, nsX, transform='rotate')
+
+	snX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, weX, transform = 'rotate')
+	sny = data.iloc[:,3]
 
 	X = pd.concat([ewX, snX], axis = 0)
 	y = pd.concat([ewy,sny], axis = 0) # concat by row
@@ -332,13 +341,13 @@ elif(combo == 'all'):
 	ewX.columns = getOrigLabels(populations, sampleSize, 'all')
 	ewy = data.iloc[:,0]
 
-	weX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, ewX, transform='mirror')
-	wey = data.iloc[:,1]
-
 	nsX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, ewX, transform='rotate')
 	nsy = data.iloc[:,2]
 
-	snX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, nsX, transform='mirror')
+	weX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, nsX, transform='rotate')
+	wey = data.iloc[:,1]
+
+	snX = rearrangeFeatures(numPopEW, numPopNS, sampleSize, weX, transform = 'rotate')
 	sny = data.iloc[:,3]
 
 	X = pd.concat([ewX, weX, nsX, snX], axis = 0)

@@ -1,4 +1,4 @@
-# Estimating demographic parameters in stepping stone models
+# Estimating migration rates in stepping stone models
 
 **Ben, Meera, April, Sriram**
 
